@@ -23,6 +23,11 @@ table = [
 Bdata = table(:,2);
 Hdata = table(:,1);
 
+if B < 1e-7
+    dvdb = 0;
+    return;
+end
+
 for i = 1:length(Hdata)-1
     if B >= Bdata(i)&& B <= Bdata(i+1)
         k = ( Hdata(i+1) - Hdata(i) ) /( Bdata(i+1) - Bdata(i) );

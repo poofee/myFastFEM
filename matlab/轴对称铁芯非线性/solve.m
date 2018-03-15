@@ -52,9 +52,10 @@ u = u0 * ones(num_elements,1);%将每个单元的磁导率初始化为空气磁导率
 %ydot
 ydot = zeros(num_elements,1);
 for i = 1:num_elements
-    if (x(i,1)==0 & x(i,2)==0||x(i,3)==0 & x(i,2)==0||x(i,1)==0 & x(i,3)==0)
-        ydot = mean(x(i,:));
-    else ydot = 1.5*((1/(x(i,1)+x(i,2)))+(1/(x(i,1)+x(i,3)))+(1/(x(i,2)+x(i,3))));
+    if ((x(i,1)<1e-9 & x(i,2)<1e-9)||(x(i,3)<1e-9 & x(i,2)<1e-9)||(x(i,1)<1e-9 & x(i,3)<1e-9))
+        ydot(i) = mean(x(i,:));
+    else
+        ydot(i) = 1.5 / ((1/(x(i,1)+ x(i,2)) + ( 1/(x(i,1)+ x(i,3)) )+ ( 1/( x(i,2)+x(i,3)) )));
     end
 end
 
@@ -70,23 +71,23 @@ steps = 25;
 for count = 1:steps
     for i = 1:num_elements
         if DM(i)==3 || DM(i)==4
-        dvdb = getDvdb(B(i));
+            dvdb = getDvdb(B(i));
         else
-        dvdb = 0;
-        end
+            dvdb = 0;
+    end
     
         for column = 1:3
             for row = 1:3
-            D(row,column) = dvdb / ydot(i) / ydot(i) / ydot(i) /area(i);
-            D(row,column) = D(row,column) * sum((R(i,row)*R(i,:) + Q(i,row)*Q(i,:)).* A(TR(i,:))') /4/area(i);
-            D(row,column) = D(row,column) * sum((R(i,column)*R(i,:) + Q(i,column)*Q(i,:)).* A(TR(i,:))') /4/area(i);
+                D(row,column) = dvdb / ydot(i) / ydot(i) / ydot(i) /area(i);
+                D(row,column) = D(row,column) * sum((R(i,row)*R(i,:) + Q(i,row)*Q(i,:)).* A(TR(i,:))') /4/area(i);
+                D(row,column) = D(row,column) * sum((R(i,column)*R(i,:) + Q(i,column)*Q(i,:)).* A(TR(i,:))') /4/area(i);
             
-            S1(row,column) = D(row,column) + (R(i,row).*R(i,column) + Q(i,row).*Q(i,column))/4/area(i)/u(i)/ydot(i);
-            S(TR(i,row),TR(i,column)) = S(TR(i,row),TR(i,column)) + S1(row,column);
-            F(TR(i,row)) = F(TR(i,row))+ D(row,column).*A(TR(i,column));
+                S1(row,column) = D(row,column) + (R(i,row).*R(i,column) + Q(i,row).*Q(i,column))/4/area(i)/u(i)/ydot(i);
+                S(TR(i,row),TR(i,column)) = S(TR(i,row),TR(i,column)) + S1(row,column);
+                F(TR(i,row)) = F(TR(i,row))+ D(row,column).*A(TR(i,column));
+            end
+            F(TR(i,row)) = F(TR(i,row)) + J(i,:).*area(i)/3;
         end
-        F(TR(i,row)) = F(TR(i,row)) + J(i,:).*area(i)/3;
-    end
 end
 
 %查找非边界点
@@ -108,6 +109,7 @@ B = sqrt(Bx.^2 + By.^2);
 u(DM3) = B(DM3)./arrayfun(@getH,B(DM3));
 u(DM4) = B(DM4)./arrayfun(@getH,B(DM4));
 
+%判断收敛
 
 end
 
@@ -141,8 +143,8 @@ data = data';
 fclose(fp);
 
 Z = scatteredInterpolant(data(:,1),data(:,2),data(:,3));
-tx = -1:1e-3:1;
-ty = -1:1e-3:1;
+tx = 0:1e-3:0.025;
+ty = -0.012:1e-3:0.012;
 [qx,qy] = meshgrid(tx,ty);
 qz = Z(qx,qy);
 subplot(1,2,1);
