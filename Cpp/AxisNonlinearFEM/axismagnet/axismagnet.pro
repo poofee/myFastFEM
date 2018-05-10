@@ -14,7 +14,8 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    axismagnet2d.cpp
+    axismagnet2d.cpp \
+    datatype.cpp
 
 HEADERS  += mainwindow.h \
     axismagnet2d.h \

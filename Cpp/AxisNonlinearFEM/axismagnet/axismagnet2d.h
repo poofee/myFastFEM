@@ -6,6 +6,7 @@ class AxisMagnet2D
 {
 public:
     AxisMagnet2D();
+    ~AxisMagnet2D();
 
     bool loadCOMSOLmeshfile(const char fn[]);
     bool NewtonSolve();
