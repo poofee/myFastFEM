@@ -1,0 +1,11 @@
+*.obj
+*.pdb
+*.ilk
+*.exe
+*.Release
+*.Debug
+*.user
+*.o
+*.lib
+*.a
+*.dylib

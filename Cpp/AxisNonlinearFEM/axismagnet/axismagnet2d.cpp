@@ -24,7 +24,11 @@ AxisMagnet2D::~AxisMagnet2D()
 bool AxisMagnet2D::loadCOMSOLmeshfile(const char fn[])
 {
     qDebug()<<"Load COMSOL MESH file Starts!";
-
+    FILE *fp = fopen(fn,"r");
+    if (fp == NULL){
+        qDebug()<<"Error in openning file!";
+        return false;
+    }
     qDebug()<<"Successfully Loaded COMSOL MESH file!";
     return true;
 }
