@@ -18,13 +18,15 @@ SOURCES += main.cpp\
     axismagnet2d.cpp \
     datatype.cpp \
     superlutest.cpp \
-    armadillotest.cpp
+    armadillotest.cpp \
+    SuperLU_MT.cpp
 
 HEADERS  += mainwindow.h \
     axismagnet2d.h \
     datatype.h \
     superlutest.h \
-    armadillotest.h
+    armadillotest.h \
+    SuperLU_MT.h
 
 FORMS    += mainwindow.ui
 
