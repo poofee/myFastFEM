@@ -105,6 +105,10 @@
 //// Note that ARMA_64BIT_WORD is automatically enabled when a C++11 compiler is detected.
 #endif
 
+#if !defined(ARMA_32BIT_WORD)
+#define ARMA_32BIT_WORD
+#endif
+
 #if !defined(ARMA_USE_HDF5)
 // #define ARMA_USE_HDF5
 //// Uncomment the above line to allow the ability to save and load matrices stored in HDF5 format;
