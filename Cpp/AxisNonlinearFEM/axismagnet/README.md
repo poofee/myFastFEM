@@ -13,3 +13,7 @@ make PREFIX=./lib install
 cd SuperLU_MT_3.1
 
 make 
+
+## 编译armadillo：
+
+无需编译。
