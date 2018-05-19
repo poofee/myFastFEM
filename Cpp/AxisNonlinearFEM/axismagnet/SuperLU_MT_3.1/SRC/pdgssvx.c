@@ -694,6 +694,6 @@ pdgssvx(int_t nprocs, superlumt_options_t *superlumt_options, SuperMatrix *A,
 	ParallelProfile(n, Lstore->nsuper+1, Gstat.num_panels, nprocs, &Gstat);
     }
 #endif
-    PrintStat(&Gstat);
+    //PrintStat(&Gstat);
     StatFree(&Gstat);
 }
